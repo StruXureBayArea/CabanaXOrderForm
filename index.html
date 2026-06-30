@@ -329,9 +329,195 @@
     line-height: 1.7;
   }
 
+  /* ── CONFIG CARD ── */
+  .config-card {
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .config-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    gap: 16px;
+  }
+  .config-row:last-child { border-bottom: none; }
+  .config-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .config-control {
+    flex: 1;
+  }
+  .config-control select {
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+  .config-control select:focus { border-color: var(--orange); }
+  .price-display {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .price-chip {
+    font-size: 13px;
+    color: var(--mid);
+    font-weight: 500;
+  }
+  .price-chip strong {
+    color: var(--dark);
+    font-weight: 700;
+  }
+  .config-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--bg);
+    border-top: 1.5px solid var(--rule);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .config-total-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
   @media print {
     body { background: white; }
     .page { box-shadow: none; margin: 0; max-width: 100%; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    .page { margin: 0; box-shadow: none; }
+    .header { grid-template-columns: 1fr; gap: 10px; padding: 16px 18px; }
+    .header-right { text-align: left; }
+    .header-right .form-title { font-size: 16px; }
+    .contact-bar { flex-direction: column; gap: 3px; padding: 8px 18px; text-align: center; }
+    .body { padding: 20px 16px; }
+
+    /* Stack product tables into cards */
+    .product-table thead { display: none; }
+    .product-table tbody tr {
+      display: block;
+      border: 1.5px solid var(--rule);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 14px;
+      background: var(--white) !important;
+    }
+    .product-table tbody td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border: none;
+      font-size: 13px;
+    }
+    .product-table tbody td:first-child {
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      display: block;
+    }
+    .product-table tbody td:first-child .model-name { font-size: 14px; }
+    .product-table tbody td:first-child .model-desc { font-size: 11px; }
+
+    /* Price columns — show label inline */
+    .product-table tbody td.price::before {
+      content: attr(data-label);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .product-table tbody td.center { justify-content: space-between; }
+    .product-table tbody td.center::before {
+      content: attr(data-label);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .line-total-cell::before {
+      content: attr(data-label);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Big, tappable selects */
+    .product-table select {
+      font-size: 15px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1.5px solid var(--rule);
+      min-width: 130px;
+      max-width: 180px;
+      height: 44px;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .product-table select:focus { border-color: var(--orange); }
+
+    /* Enhancements table */
+    .enh-table tbody td:nth-child(2) { font-size: 12px; }
+
+    /* Line total styling on mobile */
+    .line-total-cell {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--orange);
+    }
+    .line-total-cell.empty { color: #CCC; }
+
+    /* Totals */
+    .totals { width: 100%; }
+    .total-row { padding: 10px 0; }
+    .t-label { font-size: 13px; }
+    .t-value { font-size: 14px; }
+    .total-final { border-radius: 6px; padding: 16px; }
+    .total-final .t-label { font-size: 13px; }
+    .total-final .t-value { font-size: 18px; }
+
+    /* Footer */
+    .footer { flex-direction: column; gap: 10px; text-align: center; padding: 16px; }
+    .footer .disclaimer { text-align: center; max-width: 100%; }
   }
 </style>
 </head>
@@ -397,124 +583,143 @@
     <div class="section">
       <div class="section-label">
         <span class="step-num">1</span>
-        Select Base Unit
-        <span style="font-weight:500;color:#bbb;text-transform:none;letter-spacing:0;font-size:11px;">— choose one</span>
+        Base Unit Configuration
       </div>
-      <table class="product-table" id="table-base">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th class="center col-std">Std Finish</th>
-            <th class="center col-prem">Prem Finish</th>
-            <th class="center col-finish">Finish</th>
-            <th class="center col-qty">Qty</th>
-            <th class="center col-total">Line Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="product-row" data-std="13975" data-prem="14475">
-            <td><div class="model-name">CORE FIXED</div><div class="model-desc">Non-Louvered — fixed roof panels</div></td>
-            <td class="price">$13,975</td>
-            <td class="price">$14,475</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="product-row" data-std="14975" data-prem="15475">
-            <td><div class="model-name">CORE</div><div class="model-desc">Louvered — motorized adjustable louvers</div></td>
-            <td class="price">$14,975</td>
-            <td class="price">$15,475</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="product-row" data-std="15475" data-prem="15975">
-            <td><div class="model-name">CORE+</div><div class="model-desc">Louvered with integrated LED lighting</div></td>
-            <td class="price">$15,475</td>
-            <td class="price">$15,975</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="config-card">
+
+        <!-- Model selector row -->
+        <div class="config-row">
+          <div class="config-label">Model</div>
+          <div class="config-control">
+            <select id="base-model" onchange="onModelChange()">
+              <option value="">— Select a model —</option>
+              <option value="fixed">CORE FIXED &nbsp; Non-Louvered</option>
+              <option value="core">CORE &nbsp; Louvered</option>
+              <option value="coreplus">CORE+ &nbsp; Louvered with LED Lighting</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pricing display row -->
+        <div class="config-row" id="base-price-row" style="display:none;">
+          <div class="config-label">Price</div>
+          <div class="config-control price-display">
+            <span class="price-chip">Std: <strong id="base-std-price">—</strong></span>
+            <span class="price-chip">Prem: <strong id="base-prem-price">—</strong></span>
+          </div>
+        </div>
+
+        <!-- Finish row -->
+        <div class="config-row" id="base-finish-row" style="display:none;">
+          <div class="config-label">Finish</div>
+          <div class="config-control">
+            <select id="base-finish" onchange="onFinishChange()">
+              <option value="">— Select finish —</option>
+              <option value="std">Standard</option>
+              <option value="prem">Premium</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Color scheme row -->
+        <div class="config-row" id="base-color-row" style="display:none;">
+          <div class="config-label">Color</div>
+          <div class="config-control">
+            <select id="base-color" onchange="recalc()">
+              <option value="">— Select color scheme —</option>
+            </select>
+            <div id="base-color-desc" style="font-size:11px; color:var(--mid); margin-top:6px; font-style:italic;"></div>
+          </div>
+        </div>
+
+        <!-- Qty row -->
+        <div class="config-row" id="base-qty-row" style="display:none;">
+          <div class="config-label">Qty</div>
+          <div class="config-control">
+            <select id="base-qty" onchange="recalc()">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Line total -->
+        <div class="config-total-row" id="base-total-row" style="display:none;">
+          <span>Base Unit Subtotal</span>
+          <span id="base-line-total" class="config-total-value">—</span>
+        </div>
+
+      </div>
     </div>
 
     <!-- STEP 2: IN-LINE -->
     <div class="section">
-      <div class="section-label">
+      <div class="section-label" style="cursor:pointer; user-select:none;" onclick="toggleInline()">
         <span class="step-num">2</span>
         In-Line Zones
         <span style="font-weight:500;color:#bbb;text-transform:none;letter-spacing:0;font-size:11px;">— additional zones, if needed</span>
+        <span id="inline-toggle-label" style="margin-left:auto; font-size:11px; font-weight:600; color:var(--mid); text-transform:none; letter-spacing:0; display:flex; align-items:center; gap:6px;">
+          <span id="inline-checkbox" style="width:16px; height:16px; border:1.5px solid var(--mid); border-radius:3px; display:inline-flex; align-items:center; justify-content:center; font-size:11px; color:var(--white); background:var(--white); flex-shrink:0;"></span>
+          Add In-Line Zone
+        </span>
       </div>
-      <table class="product-table" id="table-inline">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th class="center col-std">Std Finish</th>
-            <th class="center col-prem">Prem Finish</th>
-            <th class="center col-finish">Finish</th>
-            <th class="center col-qty">Qty</th>
-            <th class="center col-total">Line Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="product-row" data-std="7030" data-prem="7530">
-            <td><div class="model-name">CORE FIXED IN-LINE</div><div class="model-desc">Non-Louvered in-line expansion zone</div></td>
-            <td class="price">$7,030</td>
-            <td class="price">$7,530</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="product-row" data-std="8740" data-prem="9240">
-            <td><div class="model-name">CORE IN-LINE</div><div class="model-desc">Louvered in-line expansion zone</div></td>
-            <td class="price">$8,740</td>
-            <td class="price">$9,240</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="product-row" data-std="9310" data-prem="9810">
-            <td><div class="model-name">CORE+ IN-LINE</div><div class="model-desc">Louvered + lighting in-line expansion zone</div></td>
-            <td class="price">$9,310</td>
-            <td class="price">$9,810</td>
-            <td class="center"><select class="finish-select"><option value="">—</option><option value="std">Standard</option><option value="prem">Premium</option></select></td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-        </tbody>
-      </table>
+      <div id="inline-section" style="display:none;">
+        <div class="config-card">
+
+          <!-- Matched model display -->
+          <div class="config-row">
+            <div class="config-label">Model</div>
+            <div class="config-control">
+              <div id="inline-model-display" style="font-size:13px; font-weight:600; color:var(--mid); padding:10px 0;">
+                Select a base unit above first
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing display row -->
+          <div class="config-row" id="inline-price-row" style="display:none;">
+            <div class="config-label">Price</div>
+            <div class="config-control price-display">
+              <span class="price-chip">Std: <strong id="inline-std-price">—</strong></span>
+              <span class="price-chip">Prem: <strong id="inline-prem-price">—</strong></span>
+            </div>
+          </div>
+
+          <!-- Finish row — auto-matched, read-only display -->
+          <div class="config-row" id="inline-finish-row" style="display:none;">
+            <div class="config-label">Finish</div>
+            <div class="config-control">
+              <div id="inline-finish-display" style="font-size:13px; font-weight:600; color:var(--mid); padding:10px 0;">—</div>
+            </div>
+          </div>
+
+          <!-- Qty row -->
+          <div class="config-row" id="inline-qty-row" style="display:none;">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="inline-qty" onchange="recalc()">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Line total -->
+          <div class="config-total-row" id="inline-total-row" style="display:none;">
+            <span>In-Line Zones Subtotal</span>
+            <span id="inline-line-total" class="config-total-value">—</span>
+          </div>
+
+        </div>
+      </div>
     </div>
 
     <!-- STEP 3: ENHANCEMENTS -->
@@ -524,174 +729,240 @@
         Enhancements
         <span style="font-weight:500;color:#bbb;text-transform:none;letter-spacing:0;font-size:11px;">— optional add-ons</span>
       </div>
-      <table class="product-table" id="table-enh">
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Finish / Style</th>
-            <th class="center col-unit">Unit Price</th>
-            <th class="center col-qty">Qty</th>
-            <th class="center col-total">Line Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="enh-row" data-price="425">
-            <td><div class="model-name">Panel</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Black / White — Solid, Slat, or Tilt</div></td>
-            <td class="price">$425</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="475">
-            <td><div class="model-name">Panel</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Teak / Walnut — Solid, Slat, or Tilt</div></td>
-            <td class="price">$475</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="475">
-            <td><div class="model-name">Power Panel</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Black / White — Solid, Slat, or Tilt</div></td>
-            <td class="price">$475</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="550">
-            <td><div class="model-name">Power Panel</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Teak / Walnut — Solid, Slat, or Tilt</div></td>
-            <td class="price">$550</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="110">
-            <td><div class="model-name">Curtain Rod</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Black / White</div></td>
-            <td class="price">$110</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="135">
-            <td><div class="model-name">Curtain Rod</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Teak / Walnut</div></td>
-            <td class="price">$135</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="179">
-            <td><div class="model-name">Curtains</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Black / White</div></td>
-            <td class="price">$179</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-          <tr class="enh-row" data-price="179">
-            <td><div class="model-name">Corbels</div></td>
-            <td><div class="model-desc" style="color:var(--dark);font-size:12px;">Black / White</div></td>
-            <td class="price">$179</td>
-            <td class="center"><select class="qty-input qty-select"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select></td>
-            <td class="line-total-cell empty">—</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+
+        <!-- PANEL -->
+        <div class="config-card">
+          <div class="config-row" style="flex-wrap:wrap; gap:10px;">
+            <div class="config-label">Panel</div>
+            <div class="config-control" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start;">
+              <div>
+                <select id="enh-panel-grade" onchange="enhGradeChange('panel')" style="max-width:140px;">
+                  <option value="">— Finish —</option>
+                  <option value="std">Standard</option>
+                  <option value="prem">Premium</option>
+                </select>
+              </div>
+              <div id="enh-panel-color-wrap" style="display:none;">
+                <select id="enh-panel-finish" onchange="enhRecalc('panel')" style="max-width:200px;">
+                  <option value="">— Color —</option>
+                </select>
+              </div>
+              <div id="enh-panel-color-label" style="display:none; font-size:13px; font-weight:600; color:var(--dark); padding:10px 0;"></div>
+            </div>
+          </div>
+          <div style="padding:0 18px 6px; font-size:10.5px; color:var(--mid); font-style:italic;">4 panels per side</div>
+          <div class="config-row" id="enh-panel-price-row" style="display:none;">
+            <div class="config-label">Price</div>
+            <div class="config-control"><span id="enh-panel-price" class="price-chip"><strong>—</strong></span> <span style="font-size:11px;color:var(--mid);">per panel</span></div>
+          </div>
+          <div class="config-row" id="enh-panel-qty-row" style="display:none;">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="enh-panel-qty" onchange="enhRecalc('panel')" style="max-width:100px;">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="config-total-row" id="enh-panel-total-row" style="display:none;">
+            <span>Panel Subtotal</span>
+            <span id="enh-panel-total" class="config-total-value">—</span>
+          </div>
+        </div>
+
+        <!-- POWER PANEL -->
+        <div class="config-card">
+          <div class="config-row" style="flex-wrap:wrap; gap:10px;">
+            <div class="config-label">Power Panel</div>
+            <div class="config-control" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start;">
+              <div>
+                <select id="enh-ppanel-grade" onchange="enhGradeChange('ppanel')" style="max-width:140px;">
+                  <option value="">— Finish —</option>
+                  <option value="std">Standard</option>
+                  <option value="prem">Premium</option>
+                </select>
+              </div>
+              <div id="enh-ppanel-color-wrap" style="display:none;">
+                <select id="enh-ppanel-finish" onchange="enhRecalc('ppanel')" style="max-width:200px;">
+                  <option value="">— Color —</option>
+                </select>
+              </div>
+              <div id="enh-ppanel-color-label" style="display:none; font-size:13px; font-weight:600; color:var(--dark); padding:10px 0;"></div>
+            </div>
+          </div>
+          <div style="padding:0 18px 6px; font-size:10.5px; color:var(--mid); font-style:italic;">4 panels per side</div>
+          <div class="config-row" id="enh-ppanel-price-row" style="display:none;">
+            <div class="config-label">Price</div>
+            <div class="config-control"><span id="enh-ppanel-price" class="price-chip"><strong>—</strong></span> <span style="font-size:11px;color:var(--mid);">per panel</span></div>
+          </div>
+          <div class="config-row" id="enh-ppanel-qty-row" style="display:none;">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="enh-ppanel-qty" onchange="enhRecalc('ppanel')" style="max-width:100px;">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="config-total-row" id="enh-ppanel-total-row" style="display:none;">
+            <span>Power Panel Subtotal</span>
+            <span id="enh-ppanel-total" class="config-total-value">—</span>
+          </div>
+        </div>
+
+        <!-- CURTAIN ROD -->
+        <div class="config-card">
+          <div class="config-row" style="flex-wrap:wrap; gap:10px;">
+            <div class="config-label">Curtain Rod</div>
+            <div class="config-control" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start;">
+              <div>
+                <select id="enh-rod-grade" onchange="enhGradeChange('rod')" style="max-width:140px;">
+                  <option value="">— Finish —</option>
+                  <option value="std">Standard</option>
+                  <option value="prem">Premium</option>
+                </select>
+              </div>
+              <div id="enh-rod-color-wrap" style="display:none;">
+                <select id="enh-rod-finish" onchange="enhRecalc('rod')" style="max-width:200px;">
+                  <option value="">— Color —</option>
+                </select>
+              </div>
+              <div id="enh-rod-color-label" style="display:none; font-size:13px; font-weight:600; color:var(--dark); padding:10px 0;"></div>
+            </div>
+          </div>
+          <div style="padding:0 18px 6px; font-size:10.5px; color:var(--mid); font-style:italic;">1 rod per side</div>
+          <div class="config-row" id="enh-rod-price-row" style="display:none;">
+            <div class="config-label">Price</div>
+            <div class="config-control"><span id="enh-rod-price" class="price-chip"><strong>—</strong></span> <span style="font-size:11px;color:var(--mid);">per rod</span></div>
+          </div>
+          <div class="config-row" id="enh-rod-qty-row" style="display:none;">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="enh-rod-qty" onchange="enhRecalc('rod')" style="max-width:100px;">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="config-total-row" id="enh-rod-total-row" style="display:none;">
+            <span>Curtain Rod Subtotal</span>
+            <span id="enh-rod-total" class="config-total-value">—</span>
+          </div>
+        </div>
+
+        <!-- CURTAINS -->
+        <div class="config-card">
+          <div class="config-row" style="flex-wrap:wrap; gap:10px;">
+            <div class="config-label">Curtains</div>
+            <div class="config-control" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <select id="enh-curtain-color" onchange="enhRecalc('curtain')" style="max-width:160px;">
+                <option value="">— Color —</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+              </select>
+              <span class="price-chip" style="white-space:nowrap;"><strong>$179 each</strong></span>
+            </div>
+          </div>
+          <div style="padding:0 18px 6px; font-size:10.5px; color:var(--mid); font-style:italic;">2 curtains per side</div>
+          <div class="config-row">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="enh-curtain-qty" onchange="enhRecalc('curtain')" style="max-width:100px;">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="config-total-row" id="enh-curtain-total-row" style="display:none;">
+            <span>Curtains Subtotal</span>
+            <span id="enh-curtain-total" class="config-total-value">—</span>
+          </div>
+        </div>
+
+        <!-- CORBELS -->
+        <div class="config-card">
+          <div class="config-row" style="flex-wrap:wrap; gap:10px;">
+            <div class="config-label">Corbels</div>
+            <div class="config-control" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <div id="enh-corbel-color-label" style="font-size:13px; font-weight:600; color:var(--mid);"></div>
+              <span class="price-chip" style="white-space:nowrap;"><strong>$179 each</strong></span>
+            </div>
+          </div>
+          <div class="config-row">
+            <div class="config-label">Qty</div>
+            <div class="config-control">
+              <select id="enh-corbel-qty" onchange="enhRecalc('corbel')" style="max-width:100px;">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="config-total-row" id="enh-corbel-total-row" style="display:none;">
+            <span>Corbels Subtotal</span>
+            <span id="enh-corbel-total" class="config-total-value">—</span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- ORDER TOTAL -->
+        <!-- ORDER TOTAL -->
     <div class="section" style="margin-bottom:28px;">
       <div class="section-label">Order Total</div>
       <div class="totals">
@@ -745,81 +1016,445 @@
 
   const ACCESS_KEY = 'ea32961c-4b24-4d8d-b0e3-32a6b80d9c0e';
 
-  const fmt = n => n === 0 ? '—' : '$' + n.toLocaleString('en-US');
+  const MODELS = {
+    fixed:   { name: 'CORE FIXED',    desc: 'Non-Louvered — fixed roof panels',          std: 13975, prem: 14475,
+                inlineName: 'CORE FIXED IN-LINE', inlineDesc: 'Non-Louvered in-line expansion zone', inlineStd: 7030, inlinePrem: 7530 },
+    core:    { name: 'CORE',          desc: 'Louvered — motorized adjustable louvers',    std: 14975, prem: 15475,
+                inlineName: 'CORE IN-LINE',        inlineDesc: 'Louvered in-line expansion zone',             inlineStd: 8740, inlinePrem: 9240 },
+    coreplus:{ name: 'CORE+',         desc: 'Louvered with integrated LED lighting',      std: 15475, prem: 15975,
+                inlineName: 'CORE+ IN-LINE',       inlineDesc: 'Louvered + lighting in-line expansion zone',  inlineStd: 9310, inlinePrem: 9810 },
+  };
 
-  function rowTotal(row) {
-    const finish = row.querySelector('.finish-select');
-    const qty    = parseFloat(row.querySelector('.qty-input').value) || 0;
-    const cell   = row.querySelector('.line-total-cell');
-    if (!qty) { cell.textContent = '—'; cell.classList.add('empty'); return 0; }
-    let price = 0;
-    if (finish) {
-      const f = finish.value;
-      if (!f) { cell.textContent = '—'; cell.classList.add('empty'); return 0; }
-      price = f === 'prem' ? parseFloat(row.dataset.prem) : parseFloat(row.dataset.std);
-    } else {
-      price = parseFloat(row.dataset.price);
+  const fmt = n => '$' + n.toLocaleString('en-US');
+
+  const COLOR_OPTIONS = {
+    std: [
+      { value: 'all_white',   label: 'All White',                   desc: 'White frame, white louvers' },
+      { value: 'all_black',   label: 'All Black',                   desc: 'Black frame, black louvers' },
+      { value: 'bf_wl',       label: 'Black Frame / White Louvers', desc: 'Black frame with white louvers' },
+      { value: 'wf_bl',       label: 'White Frame / Black Louvers', desc: 'White frame with black louvers' },
+    ],
+    prem: [
+      { value: 'aspen',       label: 'Aspen',                       desc: 'Black frame with walnut woodgrain' },
+      { value: 'south_beach', label: 'South Beach',                 desc: 'White frame with teak woodgrain' },
+    ],
+  };
+
+  function onModelChange() {
+    const key = document.getElementById('base-model').value;
+    const m = MODELS[key];
+    const hasModel = !!key;
+
+    document.getElementById('base-price-row').style.display  = hasModel ? '' : 'none';
+    document.getElementById('base-finish-row').style.display = hasModel ? '' : 'none';
+    document.getElementById('base-qty-row').style.display    = hasModel ? '' : 'none';
+
+    // Reset finish & color when model changes
+    document.getElementById('base-finish').value = '';
+    document.getElementById('base-color-row').style.display = 'none';
+    document.getElementById('base-color').innerHTML = '<option value="">— Select color scheme —</option>';
+    document.getElementById('base-color-desc').textContent = '';
+
+    if (hasModel) {
+      document.getElementById('base-std-price').textContent  = fmt(m.std);
+      document.getElementById('base-prem-price').textContent = fmt(m.prem);
     }
-    const total = price * qty;
-    cell.textContent = '$' + total.toLocaleString('en-US');
-    cell.classList.remove('empty');
-    return total;
+
+    const inlineDisplay   = document.getElementById('inline-model-display');
+    const inlinePriceRow  = document.getElementById('inline-price-row');
+    const inlineFinishRow = document.getElementById('inline-finish-row');
+    const inlineQtyRow    = document.getElementById('inline-qty-row');
+
+    if (hasModel) {
+      inlineDisplay.textContent = m.inlineName + ' — ' + m.inlineDesc;
+      inlineDisplay.style.color = 'var(--dark)';
+      inlinePriceRow.style.display  = '';
+      inlineFinishRow.style.display = '';
+      inlineQtyRow.style.display    = '';
+      document.getElementById('inline-std-price').textContent  = fmt(m.inlineStd);
+      document.getElementById('inline-prem-price').textContent = fmt(m.inlinePrem);
+    } else {
+      inlineDisplay.textContent = 'Select a base unit above first';
+      inlineDisplay.style.color = 'var(--mid)';
+      inlinePriceRow.style.display  = 'none';
+      inlineFinishRow.style.display = 'none';
+      inlineQtyRow.style.display    = 'none';
+    }
+
+    syncInlineFinish();
+    recalc();
+  }
+
+  function onFinishChange() {
+    const finish = document.getElementById('base-finish').value;
+    const colorRow    = document.getElementById('base-color-row');
+    const colorSelect = document.getElementById('base-color');
+    const colorDesc   = document.getElementById('base-color-desc');
+
+    // Reset color
+    colorSelect.innerHTML = '<option value="">— Select color scheme —</option>';
+    colorDesc.textContent = '';
+
+    if (finish && COLOR_OPTIONS[finish]) {
+      COLOR_OPTIONS[finish].forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt.value;
+        o.textContent = opt.label;
+        colorSelect.appendChild(o);
+      });
+      colorRow.style.display = '';
+    } else {
+      colorRow.style.display = 'none';
+    }
+
+    syncInlineFinish();
+    rebuildEnhOptions();
+    recalc();
+  }
+
+  // Update color desc + rebuild enhancement options when color is chosen
+  document.addEventListener('change', function(e) {
+    if (e.target.id === 'base-color') {
+      const finish = document.getElementById('base-finish').value;
+      const val = e.target.value;
+      const colorDesc = document.getElementById('base-color-desc');
+      if (finish && val) {
+        const opt = COLOR_OPTIONS[finish].find(o => o.value === val);
+        colorDesc.textContent = opt ? opt.desc : '';
+      } else {
+        colorDesc.textContent = '';
+      }
+      rebuildEnhOptions();
+    }
+  });
+
+  function syncInlineFinish() {
+    const finish = document.getElementById('base-finish').value;
+    const color  = document.getElementById('base-color').value;
+    const finishLabels = { '': '—', 'std': 'Standard', 'prem': 'Premium' };
+    let label = finishLabels[finish] || '—';
+    if (color) {
+      const finishOpts = COLOR_OPTIONS[finish] || [];
+      const found = finishOpts.find(o => o.value === color);
+      if (found) label += ' — ' + found.label;
+    }
+    document.getElementById('inline-finish-display').textContent = label;
   }
 
   function recalc() {
-    let baseTotal   = 0;
+    syncInlineFinish();
+
+    const key    = document.getElementById('base-model').value;
+    const m      = MODELS[key];
+    const finish = document.getElementById('base-finish').value;
+    const baseQty   = parseInt(document.getElementById('base-qty').value) || 0;
+    const inlineQty = parseInt(document.getElementById('inline-qty').value) || 0;
+
+    // Base total
+    let baseTotal = 0;
+    const baseTotalEl  = document.getElementById('base-line-total');
+    const baseTotalRow = document.getElementById('base-total-row');
+    if (m && finish && baseQty > 0) {
+      const price = finish === 'prem' ? m.prem : m.std;
+      baseTotal = price * baseQty;
+      baseTotalEl.textContent = fmt(baseTotal);
+      baseTotalRow.style.display = '';
+    } else {
+      baseTotalEl.textContent = '—';
+      baseTotalRow.style.display = 'none';
+    }
+
+    // Inline total — only if section is expanded
     let inlineTotal = 0;
-    let enhTotal    = 0;
+    const inlineSection  = document.getElementById('inline-section');
+    const inlineTotalEl  = document.getElementById('inline-line-total');
+    const inlineTotalRow = document.getElementById('inline-total-row');
+    const inlineVisible  = inlineSection && inlineSection.style.display !== 'none';
+    if (inlineVisible && m && finish && inlineQty > 0) {
+      const iPrice = finish === 'prem' ? m.inlinePrem : m.inlineStd;
+      inlineTotal = iPrice * inlineQty;
+      inlineTotalEl.textContent = fmt(inlineTotal);
+      inlineTotalRow.style.display = '';
+    } else {
+      inlineTotalEl.textContent = '—';
+      inlineTotalRow.style.display = 'none';
+    }
 
-    document.querySelectorAll('.product-row').forEach(r => {
-      const t = rowTotal(r);
-      if (r.closest('#table-base'))   baseTotal   += t;
-      if (r.closest('#table-inline')) inlineTotal += t;
-    });
-    document.querySelectorAll('.enh-row').forEach(r => { enhTotal += rowTotal(r); });
+    // Enhancements — summed from individual enhRecalc state
+    const enhTotal = getEnhTotal();
 
-    document.getElementById('sub-base').textContent   = fmt(baseTotal);
-    document.getElementById('sub-inline').textContent = fmt(inlineTotal);
-    document.getElementById('sub-enh').textContent    = fmt(enhTotal);
+    // Summary
+    document.getElementById('sub-base').textContent   = baseTotal   > 0 ? fmt(baseTotal)   : '—';
+    document.getElementById('sub-inline').textContent = inlineTotal > 0 ? fmt(inlineTotal) : '—';
+    document.getElementById('sub-enh').textContent    = enhTotal    > 0 ? fmt(enhTotal)    : '—';
 
     const grand = baseTotal + inlineTotal + enhTotal;
-    document.getElementById('grand-total').textContent = grand > 0 ? '$' + grand.toLocaleString('en-US') : '—';
+    document.getElementById('grand-total').textContent = grand > 0 ? fmt(grand) : '—';
   }
 
-  document.addEventListener('input', recalc);
   document.addEventListener('change', recalc);
+
+  // ── Enhancement pricing config ──────────────────────────────────────────────
+  const ENH = {
+    panel:   { bw_solid:425, bw_slat:425, bw_tilt:425, tw_solid:475, tw_slat:475, tw_tilt:475 },
+    ppanel:  { bw_solid:475, bw_slat:475, bw_tilt:475, tw_solid:550, tw_slat:550, tw_tilt:550 },
+    rod:     { bw:110, tw:135 },
+    curtain: { fixed:179 },
+    corbel:  { fixed:179 },
+  };
+
+  // Maps base color to enhancement config
+  // locked:true  = no choice, auto-set to frameColor
+  // locked:false = premium, show both bw and tw options
+  const COLOR_TO_ENH = {
+    // stdColor/stdLabel = what Standard panel shows (frame color)
+    // premColor/premLabel = what Premium panel shows (woodgrain)
+    all_white:   { locked:true,  stdColor:'bw', stdLabel:'White',  premColor:'bw', premLabel:'White',  rodDefault:'bw', corbelLabel:'White' },
+    all_black:   { locked:true,  stdColor:'bw', stdLabel:'Black',  premColor:'bw', premLabel:'Black',  rodDefault:'bw', corbelLabel:'Black' },
+    bf_wl:       { locked:true,  stdColor:'bw', stdLabel:'Black',  premColor:'bw', premLabel:'Black',  rodDefault:'bw', corbelLabel:'Black' },
+    wf_bl:       { locked:true,  stdColor:'bw', stdLabel:'White',  premColor:'bw', premLabel:'White',  rodDefault:'bw', corbelLabel:'White' },
+    aspen:       { locked:false, stdColor:'bw', stdLabel:'Black',  premColor:'tw', premLabel:'Walnut', rodDefault:'tw', corbelLabel:'Black' },
+    south_beach: { locked:false, stdColor:'bw', stdLabel:'White',  premColor:'tw', premLabel:'Teak',   rodDefault:'tw', corbelLabel:'White' },
+  };
+
+  // Style labels for panel/ppanel dropdowns
+  const STYLE_LABELS = {
+    bw_solid: 'Black / White — Solid',
+    bw_slat:  'Black / White — Slat',
+    bw_tilt:  'Black / White — Tilt',
+    tw_solid: 'Teak / Walnut — Solid',
+    tw_slat:  'Teak / Walnut — Slat',
+    tw_tilt:  'Teak / Walnut — Tilt',
+  };
+  const ROD_LABELS = { bw: 'Black / White', tw: 'Teak / Walnut' };
+
+  // Called when base color changes — resets grade dropdowns, which triggers enhGradeChange
+  function rebuildEnhOptions() {
+    ['panel','ppanel','rod'].forEach(key => {
+      const grade = document.getElementById('enh-' + key + '-grade');
+      if (grade) {
+        grade.value = '';
+        // Hide color controls and reset
+        const wrap  = document.getElementById('enh-' + key + '-color-wrap');
+        const lbl   = document.getElementById('enh-' + key + '-color-label');
+        const finSel = document.getElementById('enh-' + key + '-finish');
+        if (wrap)  wrap.style.display  = 'none';
+        if (lbl)   lbl.style.display   = 'none';
+        if (finSel) finSel.innerHTML   = '<option value="">— Color —</option>';
+        document.getElementById('enh-' + key + '-price-row').style.display = 'none';
+        document.getElementById('enh-' + key + '-qty-row').style.display   = 'none';
+        document.getElementById('enh-' + key + '-total-row').style.display = 'none';
+        document.getElementById('enh-' + key + '-total').textContent       = '—';
+      }
+    });
+    // ── Corbels — auto-set from frame color ──────────────────────────────
+    const corbelLbl = document.getElementById('enh-corbel-color-label');
+    if (corbelLbl) {
+      corbelLbl.textContent = cfg ? cfg.corbelLabel : '';
+      corbelLbl.style.color = 'var(--dark)';
+    }
+    recalc();
+  }
+
+  // Called when vendor picks Standard or Premium on an enhancement item
+  function enhGradeChange(key) {
+    const grade  = document.getElementById('enh-' + key + '-grade').value;
+    const colorVal = document.getElementById('base-color').value;
+    const cfg    = COLOR_TO_ENH[colorVal] || null;
+
+    const wrap   = document.getElementById('enh-' + key + '-color-wrap');
+    const lbl    = document.getElementById('enh-' + key + '-color-label');
+    const finSel = document.getElementById('enh-' + key + '-finish');
+
+    // Reset color side
+    if (finSel) finSel.innerHTML = '<option value="">— Color —</option>';
+    if (wrap)   wrap.style.display = 'none';
+    if (lbl)    lbl.style.display  = 'none';
+
+    if (!grade) { enhRecalc(key); return; }
+
+    if (grade === 'std') {
+      if (key === 'panel' || key === 'ppanel') {
+        // Standard panel: locked to FRAME color (stdColor/stdLabel)
+        const color = cfg ? cfg.stdColor : 'bw';
+        const label = cfg ? cfg.stdLabel : 'Black / White';
+        ['solid','slat','tilt'].forEach(style => {
+          const v = color + '_' + style;
+          const o = document.createElement('option');
+          o.value = v;
+          o.textContent = label + ' — ' + style.charAt(0).toUpperCase() + style.slice(1);
+          finSel.appendChild(o);
+        });
+        finSel.value = color + '_solid';
+        if (wrap) wrap.style.display = '';
+        if (lbl)  lbl.style.display  = 'none';
+      } else if (key === 'rod') {
+        // Rod standard: locked to frame color, shown as read-only label
+        const color = cfg ? cfg.stdColor : 'bw';
+        const label = cfg ? cfg.stdLabel : 'Black / White';
+        const o = document.createElement('option');
+        o.value = color;
+        o.textContent = label;
+        finSel.appendChild(o);
+        finSel.value = color;
+        if (lbl) { lbl.textContent = label; lbl.style.display = ''; }
+      }
+    } else if (grade === 'prem') {
+      if (key === 'panel' || key === 'ppanel') {
+        // Premium panel: locked to WOODGRAIN color (premColor/premLabel)
+        const color = cfg ? cfg.premColor : 'tw';
+        const label = cfg ? cfg.premLabel : 'Teak / Walnut';
+        ['solid','slat','tilt'].forEach(style => {
+          const v = color + '_' + style;
+          const o = document.createElement('option');
+          o.value = v;
+          o.textContent = label + ' — ' + style.charAt(0).toUpperCase() + style.slice(1);
+          finSel.appendChild(o);
+        });
+        finSel.value = color + '_solid';
+        if (wrap) wrap.style.display = '';
+        if (lbl)  lbl.style.display  = 'none';
+      } else if (key === 'rod') {
+        // Rod premium: Teak/Walnut first, Black/White as alt
+        [['tw','Teak / Walnut'],['bw','Black / White']].forEach(([v, lbl_]) => {
+          const o = document.createElement('option');
+          o.value = v;
+          o.textContent = lbl_;
+          finSel.appendChild(o);
+        });
+        finSel.value = 'tw';
+        if (wrap) wrap.style.display = '';
+      }
+    }
+
+    enhRecalc(key);
+  }
+
+  function enhRecalc(key) {
+    let price = 0, qty = 0, total = 0;
+
+    if (key === 'panel' || key === 'ppanel' || key === 'rod') {
+      const grade  = document.getElementById('enh-' + key + '-grade')?.value || '';
+      const finish = document.getElementById('enh-' + key + '-finish')?.value || '';
+      qty = parseInt(document.getElementById('enh-' + key + '-qty').value) || 0;
+
+      const ready = grade && finish;
+      if (key === 'rod') {
+        price = ready ? ENH.rod[finish] : 0;
+      } else {
+        price = ready ? ENH[key][finish] : 0;
+      }
+      document.getElementById('enh-' + key + '-price-row').style.display = ready ? '' : 'none';
+      document.getElementById('enh-' + key + '-qty-row').style.display   = ready ? '' : 'none';
+      if (ready) document.getElementById('enh-' + key + '-price').innerHTML = '<strong>$' + price + '</strong>';
+    } else if (key === 'curtain') {
+      qty = parseInt(document.getElementById('enh-curtain-qty').value) || 0;
+      price = 179;
+    } else if (key === 'corbel') {
+      qty = parseInt(document.getElementById('enh-corbel-qty').value) || 0;
+      price = 179;
+    }
+
+    total = price * qty;
+    const totalRow = document.getElementById('enh-' + key + '-total-row');
+    const totalEl  = document.getElementById('enh-' + key + '-total');
+    if (total > 0) {
+      totalEl.textContent = fmt(total);
+      totalRow.style.display = '';
+    } else {
+      totalEl.textContent = '—';
+      totalRow.style.display = 'none';
+    }
+    recalc();
+  }
+
+  function toggleInline() {
+    const section  = document.getElementById('inline-section');
+    const checkbox = document.getElementById('inline-checkbox');
+    const isOpen   = section.style.display !== 'none';
+
+    if (isOpen) {
+      section.style.display = 'none';
+      checkbox.style.background = 'var(--white)';
+      checkbox.style.borderColor = 'var(--mid)';
+      checkbox.textContent = '';
+      // Reset inline qty so it doesn't count toward total
+      document.getElementById('inline-qty').value = '0';
+      recalc();
+    } else {
+      section.style.display = '';
+      checkbox.style.background = 'var(--orange)';
+      checkbox.style.borderColor = 'var(--orange)';
+      checkbox.textContent = '✓';
+    }
+  }
+
+  function getEnhTotal() {
+    let t = 0;
+    ['panel','ppanel','rod','curtain','corbel'].forEach(key => {
+      const el = document.getElementById('enh-' + key + '-total');
+      if (el && el.textContent !== '—') {
+        t += parseInt(el.textContent.replace(/[$,]/g,'')) || 0;
+      }
+    });
+    return t;
+  }
 
   function collectOrderDetails() {
     const rows = [];
+    const key    = document.getElementById('base-model').value;
+    const m      = MODELS[key];
+    const finish = document.getElementById('base-finish').value;
+    const finishLabel = finish === 'prem' ? 'Premium' : 'Standard';
+    const baseQty   = parseInt(document.getElementById('base-qty').value) || 0;
+    const inlineQty = parseInt(document.getElementById('inline-qty').value) || 0;
 
-    // Base units
-    document.querySelectorAll('#table-base .product-row').forEach(r => {
-      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
-      if (!qty) return;
-      const finish = r.querySelector('.finish-select').value;
-      const name = r.querySelector('.model-name').textContent;
-      const price = finish === 'prem' ? parseFloat(r.dataset.prem) : parseFloat(r.dataset.std);
-      rows.push(name + ' (' + (finish === 'prem' ? 'Premium' : 'Standard') + ') x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
-    });
+    const colorVal = document.getElementById('base-color').value;
+    const colorOpts = (finish && COLOR_OPTIONS[finish]) ? COLOR_OPTIONS[finish] : [];
+    const colorFound = colorOpts.find(o => o.value === colorVal);
+    const colorLabel = colorFound ? ' — ' + colorFound.label : '';
 
-    // In-line zones
-    document.querySelectorAll('#table-inline .product-row').forEach(r => {
-      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
-      if (!qty) return;
-      const finish = r.querySelector('.finish-select').value;
-      const name = r.querySelector('.model-name').textContent;
-      const price = finish === 'prem' ? parseFloat(r.dataset.prem) : parseFloat(r.dataset.std);
-      rows.push(name + ' (' + (finish === 'prem' ? 'Premium' : 'Standard') + ') x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
-    });
+    if (m && finish && baseQty > 0) {
+      const price = finish === 'prem' ? m.prem : m.std;
+      rows.push(m.name + ' (' + finishLabel + colorLabel + ') x' + baseQty + ' = $' + (price * baseQty).toLocaleString('en-US'));
+    }
+    if (m && finish && inlineQty > 0) {
+      const iPrice = finish === 'prem' ? m.inlinePrem : m.inlineStd;
+      rows.push(m.inlineName + ' (' + finishLabel + colorLabel + ') x' + inlineQty + ' = $' + (iPrice * inlineQty).toLocaleString('en-US'));
+    }
 
     // Enhancements
-    document.querySelectorAll('#table-enh .enh-row').forEach(r => {
-      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
-      if (!qty) return;
-      const name = r.querySelector('.model-name').textContent;
-      const desc = r.querySelectorAll('td')[1].textContent.trim();
-      const price = parseFloat(r.dataset.price);
-      rows.push(name + ' — ' + desc + ' x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
+    const enhItems = [
+      { key:'panel',   name:'Panel' },
+      { key:'ppanel',  name:'Power Panel' },
+      { key:'rod',     name:'Curtain Rod' },
+      { key:'curtain', name:'Curtains' },
+      { key:'corbel',  name:'Corbels' },
+    ];
+    enhItems.forEach(({key, name}) => {
+      const totalEl = document.getElementById('enh-' + key + '-total');
+      if (!totalEl || totalEl.textContent === '—') return;
+      let finishLabel = '';
+      if (key === 'curtain') {
+        const colorEl = document.getElementById('enh-curtain-color');
+        if (colorEl && colorEl.value) finishLabel = ' (' + colorEl.options[colorEl.selectedIndex].text + ')';
+      } else if (key === 'corbel') {
+        const lblEl = document.getElementById('enh-corbel-color-label');
+        if (lblEl && lblEl.textContent && lblEl.textContent !== 'Select a frame color above') {
+          finishLabel = ' (' + lblEl.textContent + ')';
+        }
+      } else {
+        const gradeEl  = document.getElementById('enh-' + key + '-grade');
+        const finishEl = document.getElementById('enh-' + key + '-finish');
+        if (gradeEl && gradeEl.value) {
+          finishLabel = ' (' + gradeEl.options[gradeEl.selectedIndex].text;
+          if (finishEl && finishEl.value) finishLabel += ' — ' + finishEl.options[finishEl.selectedIndex].text;
+          finishLabel += ')';
+        }
+      }
+      const qtyEl = document.getElementById('enh-' + key + '-qty');
+      const qty = qtyEl ? (parseInt(qtyEl.value) || 0) : 0;
+      rows.push(name + finishLabel + ' x' + qty + ' = ' + totalEl.textContent);
     });
 
     return rows.length ? rows.join('\n') : 'No items selected';
