@@ -737,6 +737,8 @@
 
 <script>
 
+  const ACCESS_KEY = 'ea32961c-4b24-4d8d-b0e3-32a6b80d9c0e';
+
   const fmt = n => n === 0 ? '—' : '$' + n.toLocaleString('en-US');
 
   function rowTotal(row) {
@@ -774,12 +776,132 @@
     document.getElementById('sub-inline').textContent = fmt(inlineTotal);
     document.getElementById('sub-enh').textContent    = fmt(enhTotal);
 
-    const grand     = baseTotal + inlineTotal + enhTotal;
+    const grand = baseTotal + inlineTotal + enhTotal;
     document.getElementById('grand-total').textContent = grand > 0 ? '$' + grand.toLocaleString('en-US') : '—';
   }
 
   document.addEventListener('input', recalc);
   document.addEventListener('change', recalc);
+
+  function collectOrderDetails() {
+    const rows = [];
+
+    // Base units
+    document.querySelectorAll('#table-base .product-row').forEach(r => {
+      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
+      if (!qty) return;
+      const finish = r.querySelector('.finish-select').value;
+      const name = r.querySelector('.model-name').textContent;
+      const price = finish === 'prem' ? parseFloat(r.dataset.prem) : parseFloat(r.dataset.std);
+      rows.push(name + ' (' + (finish === 'prem' ? 'Premium' : 'Standard') + ') x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
+    });
+
+    // In-line zones
+    document.querySelectorAll('#table-inline .product-row').forEach(r => {
+      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
+      if (!qty) return;
+      const finish = r.querySelector('.finish-select').value;
+      const name = r.querySelector('.model-name').textContent;
+      const price = finish === 'prem' ? parseFloat(r.dataset.prem) : parseFloat(r.dataset.std);
+      rows.push(name + ' (' + (finish === 'prem' ? 'Premium' : 'Standard') + ') x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
+    });
+
+    // Enhancements
+    document.querySelectorAll('#table-enh .enh-row').forEach(r => {
+      const qty = parseFloat(r.querySelector('.qty-input').value) || 0;
+      if (!qty) return;
+      const name = r.querySelector('.model-name').textContent;
+      const desc = r.querySelectorAll('td')[1].textContent.trim();
+      const price = parseFloat(r.dataset.price);
+      rows.push(name + ' — ' + desc + ' x' + qty + ' = $' + (price * qty).toLocaleString('en-US'));
+    });
+
+    return rows.length ? rows.join('\n') : 'No items selected';
+  }
+
+  async function submitForm() {
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('form-message');
+
+    // Gather client info
+    const inputs = document.querySelectorAll('.field input, .field textarea');
+    const clientName    = inputs[0]?.value.trim() || '';
+    const clientPhone   = inputs[1]?.value.trim() || '';
+    const clientEmail   = inputs[2]?.value.trim() || '';
+    const clientAddress = inputs[3]?.value.trim() || '';
+    const clientCity    = inputs[4]?.value.trim() || '';
+    const bestTime      = inputs[5]?.value.trim() || '';
+    const projectNotes  = inputs[6]?.value.trim() || '';
+    const orderNotes    = document.getElementById('notes-field')?.value.trim() || '';
+    const grandTotal    = document.getElementById('grand-total').textContent;
+
+    if (!clientName) {
+      msg.style.display = 'block';
+      msg.style.background = '#FEE2E2';
+      msg.style.color = '#991B1B';
+      msg.textContent = 'Please enter the client’s name before submitting.';
+      return;
+    }
+
+    const orderDetails = collectOrderDetails();
+
+    const emailBody = [
+      'CLIENT INFORMATION',
+      '————————————————————',
+      'Name: ' + clientName,
+      'Phone: ' + (clientPhone || 'N/A'),
+      'Email: ' + (clientEmail || 'N/A'),
+      'Address: ' + (clientAddress || 'N/A'),
+      'City/State/Zip: ' + (clientCity || 'N/A'),
+      'Best Time to Reach: ' + (bestTime || 'N/A'),
+      'Project Notes: ' + (projectNotes || 'N/A'),
+      '',
+      'ORDER DETAILS',
+      '————————————————————',
+      orderDetails,
+      '',
+      'TOTAL ORDER ESTIMATE: ' + grandTotal,
+      '',
+      'ADDITIONAL NOTES',
+      '————————————————————',
+      orderNotes || 'None',
+    ].join('\n');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject: 'CabanaX Order — ' + clientName,
+          from_name: 'CabanaX Order Form',
+          name: clientName,
+          email: clientEmail || 'noreply@struxurebayarea.com',
+          message: emailBody,
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        msg.style.display = 'block';
+        msg.style.background = '#D1FAE5';
+        msg.style.color = '#065F46';
+        msg.textContent = '✓ Order submitted successfully! We will be in touch shortly.';
+        btn.textContent = 'Submitted';
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch (err) {
+      msg.style.display = 'block';
+      msg.style.background = '#FEE2E2';
+      msg.style.color = '#991B1B';
+      msg.textContent = 'Something went wrong. Please email Ops@StruXureBayArea.com directly.';
+      btn.disabled = false;
+      btn.textContent = 'Submit Order';
+    }
+  }
 
 </script>
 </body>
