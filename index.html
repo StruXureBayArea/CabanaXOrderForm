@@ -707,10 +707,6 @@
           <span class="t-label">Enhancements Subtotal</span>
           <span class="t-value" id="sub-enh">—</span>
         </div>
-        <div class="total-row">
-          <span class="t-label">Discount</span>
-          <input class="t-input" id="discount-input" type="number" min="0" placeholder="$0" />
-        </div>
         <div class="total-final">
           <span class="t-label">Total Order Estimate</span>
           <span class="t-value" id="grand-total">—</span>
@@ -778,8 +774,7 @@
     document.getElementById('sub-inline').textContent = fmt(inlineTotal);
     document.getElementById('sub-enh').textContent    = fmt(enhTotal);
 
-    const discount  = parseFloat(document.getElementById('discount-input').value) || 0;
-    const grand     = baseTotal + inlineTotal + enhTotal - discount;
+    const grand     = baseTotal + inlineTotal + enhTotal;
     document.getElementById('grand-total').textContent = grand > 0 ? '$' + grand.toLocaleString('en-US') : '—';
   }
 
